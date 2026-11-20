@@ -112,7 +112,7 @@ nav button{flex:1;font-size:12px;padding:10px 7px}
 <button onclick="addProduct()" data-k="addProduct">+ Тауар қосу</button>
 <button class="secondary" onclick="document.getElementById('priceFile').click()" data-k="uploadPrice">Прайс жүктеу XLSX / CSV</button>
 <button class="secondary" onclick="exportPrice()" data-k="downloadPrice">Прайсты CSV жүктеу</button>
-<input id="priceFile" type="file" accept=".xlsx,.csv" hidden onchange="importPrice(event)">
+<input id="priceFile" type="file" accept=".xls,.xlsx,.csv" hidden onchange="importPrice(event)">
 </div>
 <p class="small" data-k="priceHelp">Бағандар: Модель товара, Цена продажи, Себестоимость, Остаток.</p>
 <input id="searchProduct" placeholder="Тауар іздеу..." oninput="renderProducts()">
