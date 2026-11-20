@@ -708,11 +708,18 @@ function parseCSV(text){
  return rows;
 }
 
+
 function importPrice(e){
  const file=e.target.files[0];
  if(!file)return;
 
  const ext=file.name.split('.').pop().toLowerCase();
+
+ if(!['xls','xlsx','csv'].includes(ext)){
+  alert('Тек XLS, XLSX немесе CSV файл таңдаңыз');
+  e.target.value='';
+  return;
+ }
 
  const process=rows=>{
   if(!rows.length)return alert('Файл бос');
@@ -721,114 +728,90 @@ function importPrice(e){
    String(x??'').trim().toLowerCase()
   );
 
-  const find=(terms,def)=>{
-   const i=head.findIndex(h=>terms.some(t=>h.includes(t)));
-   return i<0?def:i;
-  };
+  const find=terms=>head.findIndex(h=>
+   terms.some(t=>h.includes(t))
+  );
 
-  const ni=find(['модель','атауы','название','товар'],0);
-  const pi=find(['цена','баға','price'],1);
-  const ci=find(['себестоимость','өзіндік','себес'],2);
-  const si=find(['остаток','қалдық','количество','stock'],3);
+  const ni=find(['модель','атауы','название','товар','model']);
+  const pi=find(['цена','баға','price']);
+  const ci=find(['себестоимость','өзіндік','себес','cost']);
+  const si=find(['остаток','қалдық','количество','stock']);
 
-  const seen=new Set(),parsed=[],errors=[];
+  if([ni,pi,ci,si].some(i=>i<0)){
+   alert('Баған атауларын анықтау мүмкін болмады');
+   return;
+  }
+
+  let added=0,updated=0;
 
   rows.slice(1).forEach(r=>{
    const name=String(r[ni]??'').trim();
-
-   const number=v=>Number(
-    String(v??'0').replace(/\s/g,'').replace(',','.')
-   );
-
-   const price=number(r[pi]);
-   const cost=number(r[ci]);
-   const stock=number(r[si]);
-
    if(!name)return;
 
-   const key=name.toLowerCase();
+   const price=r[pi];
+   const cost=r[ci];
+   const stock=r[si];
 
-   if(seen.has(key)){
-    errors.push('Қайталанған модель: '+name);
-    return;
-   }
-
-   seen.add(key);
-
-   if(!Number.isFinite(price)||price<=0||
-      !Number.isFinite(cost)||cost<0||
-      !Number.isFinite(stock)||stock<0){
-    errors.push('Қате мән: '+name);
-    return;
-   }
-
-   parsed.push({name,price,cost,stock});
-  });
-
-  if(errors.length)
-   return alert('Прайс жаңартылмады:\n'+errors.slice(0,10).join('\n'));
-
-  if(!parsed.length)
-   return alert('Дұрыс тауар табылмады');
-
-  if(!confirm(
-   parsed.length+' модель табылды. Бар тауарлардың бағасы мен өзіндік құны жаңарып, жаңа модельдер қосылады. Жалғастырасыз ба?'
-  ))return;
-
-  parsed.forEach(row=>{
-   const old=products.find(p=>
-    p.name.toLowerCase()===row.name.toLowerCase()
+   let old=products.find(p=>
+    p.name.toLowerCase()===name.toLowerCase()
    );
 
+   const product={
+    name,
+    price,
+    cost,
+    stock
+   };
+
    if(old){
-    old.price=row.price;
-    old.cost=row.cost;
-    old.stock=row.stock;
+    old.price=price;
+    old.cost=cost;
+    old.stock=stock;
+    updated++;
    }else{
-    products.push(row);
+    products.push(product);
+    added++;
    }
   });
 
   persist();
   render();
-  alert('Прайс сәтті жаңартылды!');
+
+  alert('Прайс жаңартылды!\nЖаңа тауар: '+added+
+   '\nЖаңартылған тауар: '+updated);
  };
 
- if(ext==='xlsx'||ext==='xls'){
-  if(!window.XLSX)
-   return alert('Excel кітапханасы жүктелмеді. Интернетке қосылыңыз.');
+ if(ext==='csv'){
+  const reader=new FileReader();
+  reader.onload=ev=>{
+   process(parseCSV(ev.target.result.replace(/^\uFEFF/,'')));
+  };
+  reader.readAsText(file,'UTF-8');
+ }else{
+  if(!window.XLSX){
+   alert('Excel кітапханасы жүктелмеді');
+   return;
+  }
 
   const reader=new FileReader();
-
   reader.onload=ev=>{
    try{
-    const wb=XLSX.read(ev.target.result,{type:'array'});
+    const wb=XLSX.read(ev.target.result,{type:'array',raw:true});
     const rows=XLSX.utils.sheet_to_json(
      wb.Sheets[wb.SheetNames[0]],
-     {header:1,defval:''}
+     {header:1,defval:'',raw:true}
     );
     process(rows);
    }catch(err){
     alert('Excel файлын оқу мүмкін болмады');
    }
   };
-
   reader.readAsArrayBuffer(file);
-
- }else{
-  const reader=new FileReader();
-
-  reader.onload=ev=>{
-   process(parseCSV(ev.target.result.replace(/^\uFEFF/,'')));
-  };
-
-  reader.readAsText(file,'UTF-8');
  }
 
  e.target.value='';
 }
 
-function backup(){
  const data={
   version:1,
   created:new Date().toISOString(),
