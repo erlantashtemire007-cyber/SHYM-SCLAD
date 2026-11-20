@@ -709,6 +709,7 @@ function parseCSV(text){
 }
 
 
+
 function importPrice(e){
  const file=e.target.files[0];
  if(!file)return;
@@ -722,7 +723,10 @@ function importPrice(e){
  }
 
  const process=rows=>{
-  if(!rows.length)return alert('Файл бос');
+  if(!rows.length){
+   alert('Файл бос');
+   return;
+  }
 
   const head=rows[0].map(x=>
    String(x??'').trim().toLowerCase()
@@ -742,43 +746,40 @@ function importPrice(e){
    return;
   }
 
-  let added=0,updated=0;
+  let added=0;
 
   rows.slice(1).forEach(r=>{
    const name=String(r[ni]??'').trim();
    if(!name)return;
 
-   const price=r[pi];
-   const cost=r[ci];
-   const stock=r[si];
-
-   let old=products.find(p=>
+   const old=products.find(p=>
     p.name.toLowerCase()===name.toLowerCase()
    );
 
-   const product={
-    name,
-    price,
-    cost,
-    stock
-   };
+   // Бар тауарға тиіспейді.
+   if(old)return;
 
-   if(old){
-    old.price=price;
-    old.cost=cost;
-    old.stock=stock;
-    updated++;
-   }else{
-    products.push(product);
-    added++;
-   }
+   const number=v=>Number(
+    String(v??'0').replace(/\s/g,'').replace(',','.')
+   );
+
+   const price=number(r[pi]);
+   const cost=number(r[ci]);
+   const stock=number(r[si]);
+
+   // Қате жолдарды өткізіп жібереді.
+   if(!Number.isFinite(price)||price<=0||
+      !Number.isFinite(cost)||cost<0||
+      !Number.isFinite(stock)||stock<0)return;
+
+   products.push({name,price,cost,stock});
+   added++;
   });
 
   persist();
   render();
 
-  alert('Прайс жаңартылды!\nЖаңа тауар: '+added+
-   '\nЖаңартылған тауар: '+updated);
+  alert('Жүктеу аяқталды. Жаңа тауар: '+added);
  };
 
  if(ext==='csv'){
@@ -790,16 +791,17 @@ function importPrice(e){
  }else{
   if(!window.XLSX){
    alert('Excel кітапханасы жүктелмеді');
+   e.target.value='';
    return;
   }
 
   const reader=new FileReader();
   reader.onload=ev=>{
    try{
-    const wb=XLSX.read(ev.target.result,{type:'array',raw:true});
+    const wb=XLSX.read(ev.target.result,{type:'array'});
     const rows=XLSX.utils.sheet_to_json(
      wb.Sheets[wb.SheetNames[0]],
-     {header:1,defval:'',raw:true}
+     {header:1,defval:''}
     );
     process(rows);
    }catch(err){
@@ -811,24 +813,6 @@ function importPrice(e){
 
  e.target.value='';
 }
-
- const data={
-  version:1,
-  created:new Date().toISOString(),
-  products,
-  history,
-  sellers,
-  lang
- };
-
- const a=document.createElement('a');
-
- const url=URL.createObjectURL(
-  new Blob(
-   [JSON.stringify(data,null,2)],
-   {type:'application/json'}
-  )
- );
 
  a.href=url;
  a.download='technomak-backup-'+
