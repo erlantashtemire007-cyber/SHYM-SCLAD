@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="kk">
 <head>
@@ -13,35 +12,31 @@ body{margin:0;background:var(--bg);color:#17243a;font-family:Arial,sans-serif}
 header{background:linear-gradient(120deg,#102b50,#2364ae);color:white;padding:22px 25px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 header h1{font-size:24px;margin:0}
 header p{margin:5px 0 0;color:#d6e5fa;font-size:13px}
-.header-actions{display:flex;gap:8px;align-items:center}
-nav{display:flex;gap:7px;flex-wrap:wrap;background:white;padding:12px 18px;box-shadow:0 3px 12px #102b5010}
+nav{display:flex;gap:7px;flex-wrap:wrap;background:white;padding:12px 18px}
 button{border:0;border-radius:9px;padding:11px 15px;background:var(--blue);color:white;cursor:pointer;font-weight:600}
-button:hover{filter:brightness(1.12)}
-button.active{background:var(--navy)}
 button.secondary{background:#e9eff8;color:#24466f}
 button.danger{background:#fff0f0;color:#bd3434}
 button.success{background:var(--green)}
+button.active{background:var(--navy)}
 main{max-width:1250px;margin:auto;padding:22px}
 section{display:none}
 section.active{display:block}
-.panel{background:white;padding:20px;border-radius:15px;margin-bottom:16px;box-shadow:0 5px 20px #18365b0a}
+.panel,.stat{background:white;padding:20px;border-radius:15px;margin-bottom:16px;box-shadow:0 5px 20px #18365b0a}
 h2{font-size:20px;margin:0 0 17px}
 h3{font-size:16px;margin:18px 0 12px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px}
-.stat{background:white;padding:19px;border-radius:14px;box-shadow:0 5px 20px #18365b0a}
 .stat span{color:#718096;font-size:13px}
 .stat strong{display:block;font-size:25px;margin-top:9px}
 input,select{width:100%;padding:11px 12px;border:1px solid #d8e0eb;border-radius:8px;background:white;color:#17243a;margin:5px 0;font:inherit}
 label{font-size:13px;font-weight:600;color:#506078}
-.field{min-width:0}
+.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
+.row button{flex:0 0 auto}
 table{width:100%;border-collapse:collapse;margin-top:12px;min-width:620px}
 th,td{padding:12px 10px;border-bottom:1px solid #e9edf3;text-align:left;font-size:13px}
 th{color:#66758b;background:#f8fafd}
 .table-wrap{overflow-x:auto}
 .small{font-size:12px;color:#718096;line-height:1.5}
-.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
-.row>*{flex:1}
-.row button{flex:0 0 auto}
 .total{font-size:23px;color:var(--green);font-weight:800}
 .tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#eaf5ef;color:#16845b;font-size:12px}
 .payment-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin:8px 0}
@@ -50,7 +45,6 @@ hr{border:0;border-top:1px solid #e9edf3;margin:18px 0}
 @media(max-width:600px){
 main{padding:12px}
 header{padding:17px}
-header h1{font-size:20px}
 nav{padding:9px}
 nav button{flex:1;font-size:12px;padding:10px 7px}
 .panel{padding:14px}
@@ -65,7 +59,7 @@ nav button{flex:1;font-size:12px;padding:10px 7px}
 <h1>TECHNOMAK PRO</h1>
 <p>SHYM-SCLAD · Сауда және қойма басқару жүйесі</p>
 </div>
-<div class="header-actions">
+<div>
 <button class="secondary" onclick="toggleLang()" id="langBtn">ҚАЗ / РУС</button>
 <span class="tag">ADMIN</span>
 </div>
@@ -82,128 +76,112 @@ nav button{flex:1;font-size:12px;padding:10px 7px}
 <section id="home" class="active">
 <h2 data-k="dashboard">Басқару панелі</h2>
 <div class="grid">
-<div class="stat"><span data-k="productCount">Тауар саны</span><strong id="count">0</strong></div>
-<div class="stat"><span data-k="salesCount">Сатылым саны</span><strong id="sales">0</strong></div>
-<div class="stat"><span data-k="revenue">Жалпы түсім</span><strong id="revenue">0 ₸</strong></div>
-<div class="stat"><span data-k="profit">Таза пайда</span><strong id="profit">0 ₸</strong></div>
-<div class="stat"><span data-k="stock">Қоймадағы қалдық</span><strong id="stock">0</strong></div>
-<div class="stat"><span data-k="debt">Қарыз сомасы</span><strong id="debt">0 ₸</strong></div>
+<div class="stat"><span>Тауар саны</span><strong id="count">0</strong></div>
+<div class="stat"><span>Сатылым саны</span><strong id="sales">0</strong></div>
+<div class="stat"><span>Жалпы түсім</span><strong id="revenue">0 ₸</strong></div>
+<div class="stat"><span>Таза пайда</span><strong id="profit">0 ₸</strong></div>
+<div class="stat"><span>Қоймадағы қалдық</span><strong id="stock">0</strong></div>
+<div class="stat"><span>Қарыз сомасы</span><strong id="debt">0 ₸</strong></div>
 </div>
-<div class="panel" style="margin-top:16px">
-<h3 data-k="latest">Соңғы сатылымдар</h3>
-<div class="table-wrap">
-<table>
+<div class="panel">
+<h3>Соңғы сатылымдар</h3>
+<div class="table-wrap"><table>
 <thead><tr><th>Күні</th><th>Сатушы</th><th>Тауарлар</th><th>Түсім</th><th>Пайда</th></tr></thead>
 <tbody id="recent"></tbody>
-</table>
-</div>
+</table></div>
 </div>
 </section>
 <section id="products">
 <div class="panel">
-<h2 data-k="catalog">Тауарлар базасы</h2>
+<h2>Тауарлар базасы</h2>
 <div class="grid">
-<div class="field"><label data-k="model">Модель товара</label><input id="pname" placeholder="Samsung A56"></div>
-<div class="field"><label data-k="cost">Себестоимость</label><input id="pcost" type="number" min="0"></div>
-<div class="field"><label data-k="price">Цена продажи</label><input id="pprice" type="number" min="0"></div>
-<div class="field"><label data-k="quantity">Остаток</label><input id="pstock" type="number" min="0" value="0"></div>
+<div><label>Модель товара</label><input id="pname" placeholder="Samsung A56"></div>
+<div><label>Себестоимость</label><input id="pcost" type="number"></div>
+<div><label>Цена продажи</label><input id="pprice" type="number"></div>
+<div><label>Остаток</label><input id="pstock" type="number" value="0"></div>
 </div>
 <div class="row">
-<button onclick="addProduct()" data-k="addProduct">+ Тауар қосу</button>
-<button class="secondary" onclick="document.getElementById('priceFile').click()" data-k="uploadPrice">Прайс жүктеу XLSX / CSV</button>
-<button class="secondary" onclick="exportPrice()" data-k="downloadPrice">Прайсты CSV жүктеу</button>
+<button onclick="addProduct()">+ Тауар қосу</button>
+<button class="secondary" onclick="document.getElementById('priceFile').click()">Прайс жүктеу XLSX / CSV</button>
+<button class="secondary" onclick="exportPrice()">Прайсты CSV жүктеу</button>
 <input id="priceFile" type="file" accept=".xls,.xlsx,.csv" hidden onchange="importPrice(event)">
 </div>
-<p class="small" data-k="priceHelp">Бағандар: Модель товара, Цена продажи, Себестоимость, Остаток.</p>
+<p class="small">Бағандар: Модель товара, Цена продажи, Себестоимость, Остаток.</p>
 <input id="searchProduct" placeholder="Тауар іздеу..." oninput="renderProducts()">
-<div class="table-wrap">
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>Модель</th><th>Өзіндік құны</th><th>Сату бағасы</th><th>Қалдық</th><th>Әрекет</th></tr></thead>
 <tbody id="plist"></tbody>
-</table>
-</div>
+</table></div>
 </div>
 </section>
 <section id="sale">
 <div class="panel">
-<h2 data-k="newSale">Жаңа накладной</h2>
+<h2>Жаңа накладной</h2>
 <div class="grid">
-<div><label data-k="seller">Сатушы</label><select id="saleSeller"></select></div>
-<div><label data-k="product">Тауар</label><select id="product"></select></div>
-<div><label data-k="qty">Саны</label><input id="qty" type="number" min="1" value="1"></div>
-<div><label data-k="unitPrice">Бірлік сату бағасы</label><input id="unitPrice" type="number" min="0"></div>
+<div><label>Сатушы</label><select id="saleSeller"></select></div>
+<div><label>Тауар</label><select id="product"></select></div>
+<div><label>Саны</label><input id="qty" type="number" min="1" value="1"></div>
+<div><label>Бірлік сату бағасы</label><input id="unitPrice" type="number"></div>
 </div>
-<button onclick="addItem()" data-k="addToInvoice">Накладнойға қосу</button>
-<div class="table-wrap">
-<table>
+<button onclick="addItem()">Накладнойға қосу</button>
+<div class="table-wrap"><table>
 <thead><tr><th>Тауар</th><th>Саны</th><th>Өзіндік құны</th><th>Келісілген сома</th><th></th></tr></thead>
 <tbody id="items"></tbody>
-</table>
-</div>
-<div class="grid" style="margin-top:14px">
-<div class="stat"><span data-k="invoiceTotal">Накладной сомасы</span><strong id="baseTotal">0 ₸</strong></div>
-<div class="stat"><span data-k="costTotal">Өзіндік құн жиыны</span><strong id="costTotal">0 ₸</strong></div>
+</table></div>
+<div class="grid">
+<div class="stat"><span>Накладной сомасы</span><strong id="baseTotal">0 ₸</strong></div>
+<div class="stat"><span>Өзіндік құн жиыны</span><strong id="costTotal">0 ₸</strong></div>
 </div>
 <hr>
-<h3 data-k="payments">Төлемдерді бөлу</h3>
-<p class="small" data-k="paymentHelp">Әр төлем жолына соманың бөлігін енгізіңіз. Қалғаны қарызға жазылады.</p>
+<h3>Төлемдерді бөлу</h3>
 <div id="payments"></div>
-<button class="secondary" onclick="addPayment()" data-k="addPayment">+ Төлем түрін қосу</button>
-<div class="grid" style="margin-top:15px">
-<div class="stat"><span data-k="customerPays">Клиент төлейді</span><strong id="clientTotal">0 ₸</strong></div>
-<div class="stat"><span data-k="commission">Комиссия</span><strong id="feeTotal">0 ₸</strong></div>
-<div class="stat"><span data-k="remainingDebt">Қалған қарыз</span><strong id="remaining">0 ₸</strong></div>
-<div class="stat"><span data-k="netProfit">Таза пайда</span><strong id="netProfit" class="total">0 ₸</strong></div>
+<button class="secondary" onclick="addPayment()">+ Төлем түрін қосу</button>
+<div class="grid">
+<div class="stat"><span>Клиент төлейді</span><strong id="clientTotal">0 ₸</strong></div>
+<div class="stat"><span>Комиссия</span><strong id="feeTotal">0 ₸</strong></div>
+<div class="stat"><span>Қалған қарыз</span><strong id="remaining">0 ₸</strong></div>
+<div class="stat"><span>Таза пайда</span><strong id="netProfit">0 ₸</strong></div>
 </div>
-<button class="success" onclick="saveSale()" style="margin-top:15px" data-k="saveInvoice">Накладнойды сақтау</button>
+<button class="success" onclick="saveSale()">Накладнойды сақтау</button>
 </div>
 </section>
-
 <section id="history">
 <div class="panel">
-<h2 data-k="salesHistory">Сатылым тарихы</h2>
-<button class="secondary" onclick="exportSales()" data-k="exportSales">Сатылымдарды CSV жүктеу</button>
-<div class="table-wrap">
-<table>
+<h2>Сатылым тарихы</h2>
+<button class="secondary" onclick="exportSales()">Сатылымдарды CSV жүктеу</button>
+<div class="table-wrap"><table>
 <thead><tr><th>Күні</th><th>Сатушы</th><th>Тауарлар</th><th>Клиент төлейді</th><th>Комиссия</th><th>Қарыз</th><th>Пайда</th></tr></thead>
 <tbody id="slist"></tbody>
-</table>
-</div>
+</table></div>
 </div>
 </section>
-
 <section id="sellers">
 <div class="panel">
-<h2 data-k="sellersTitle">Продавцы ТехноМАК</h2>
-<p class="small" data-k="sellerHelp">15 орын. Ескі накладнойларда бұрынғы есім сақталады.</p>
+<h2>Продавцы ТехноМАК</h2>
+<p class="small">15 орын. Ескі накладнойларда бұрынғы есім сақталады.</p>
 <div id="sellerFields" class="grid"></div>
-<button onclick="saveSellers()" data-k="saveSellers">Сатушылар есімдерін сақтау</button>
+<button onclick="saveSellers()">Сатушылар есімдерін сақтау</button>
 <hr>
-<h3 data-k="sellerStats">Сатушылар статистикасы</h3>
-<div class="table-wrap">
-<table>
+<h3>Сатушылар статистикасы</h3>
+<div class="table-wrap"><table>
 <thead><tr><th>Сатушы</th><th>Сатылым саны</th><th>Түсім</th><th>Пайда</th></tr></thead>
 <tbody id="sellerStats"></tbody>
-</table>
-</div>
+</table></div>
 </div>
 </section>
-
 <section id="backup">
 <div class="panel">
-<h2 data-k="backupTitle">Резервтік көшірме</h2>
-<p class="small" data-k="backupHelp">Деректер осы браузерде сақталады. Браузер деректерін тазаламас бұрын резервтік көшірме жасаңыз.</p>
-<button class="success" onclick="backup()" data-k="makeBackup">Толық резервтік көшірме жүктеу</button>
+<h2>Резервтік көшірме</h2>
+<p class="small">Деректер осы браузерде сақталады. Браузер деректерін тазаламас бұрын резервтік көшірме жасаңыз.</p>
+<button class="success" onclick="backup()">Толық резервтік көшірме жүктеу</button>
 <hr>
-<label data-k="restoreBackup">Көшірмеден қалпына келтіру (JSON)</label>
+<label>Көшірмеден қалпына келтіру (JSON)</label>
 <input type="file" id="backupFile" accept=".json">
-<button onclick="restoreBackup()" data-k="restore">Қалпына келтіру</button>
+<button onclick="restoreBackup()">Қалпына келтіру</button>
 </div>
 </section>
-</main>
 
 <script>
-
 const $=id=>document.getElementById(id);
 
 const read=(k,d)=>{
@@ -244,86 +222,13 @@ const dict={
  home:'Басты бет',products:'Тауарлар',
  sale:'Накладной',history:'Сатылым тарихы',
  sellers:'Сатушылар',backup:'Көшірме',
- dashboard:'Басқару панелі',
- productCount:'Тауар саны',salesCount:'Сатылым саны',
- revenue:'Жалпы түсім',profit:'Таза пайда',
- stock:'Қоймадағы қалдық',debt:'Қарыз сомасы',
- latest:'Соңғы сатылымдар',
- catalog:'Тауарлар базасы',
- model:'Модель товара',cost:'Себестоимость',
- price:'Цена продажи',quantity:'Остаток',
- addProduct:'+ Тауар қосу',
- uploadPrice:'Прайс жүктеу XLSX / CSV',
- downloadPrice:'Прайсты CSV жүктеу',
- priceHelp:'Бағандар: Модель товара, Цена продажи, Себестоимость, Остаток.',
- newSale:'Жаңа накладной',
- seller:'Сатушы',product:'Тауар',qty:'Саны',
- unitPrice:'Бірлік сату бағасы',
- addToInvoice:'Накладнойға қосу',
- invoiceTotal:'Накладной сомасы',
- costTotal:'Өзіндік құн жиыны',
- payments:'Төлемдерді бөлу',
- paymentHelp:'Әр төлем жолына соманың бөлігін енгізіңіз. Қалғаны қарызға жазылады.',
- addPayment:'+ Төлем түрін қосу',
- customerPays:'Клиент төлейді',
- commission:'Комиссия',
- remainingDebt:'Қалған қарыз',
- netProfit:'Таза пайда',
- saveInvoice:'Накладнойды сақтау',
- salesHistory:'Сатылым тарихы',
- exportSales:'Сатылымдарды CSV жүктеу',
- sellersTitle:'Продавцы ТехноМАК',
- sellerHelp:'15 орын. Ескі накладнойларда бұрынғы есім сақталады.',
- saveSellers:'Сатушылар есімдерін сақтау',
- sellerStats:'Сатушылар статистикасы',
- backupTitle:'Резервтік көшірме',
- backupHelp:'Деректер осы браузерде сақталады.',
- makeBackup:'Толық резервтік көшірме жүктеу',
- restoreBackup:'Көшірмеден қалпына келтіру (JSON)',
- restore:'Қалпына келтіру'
+ dashboard:'Басқару панелі'
  },
  ru:{
  home:'Главная',products:'Товары',
  sale:'Накладная',history:'История продаж',
  sellers:'Продавцы',backup:'Резервная копия',
- dashboard:'Панель управления',
- productCount:'Количество товаров',
- salesCount:'Количество продаж',
- revenue:'Общая выручка',profit:'Чистая прибыль',
- stock:'Остаток на складе',debt:'Сумма долга',
- latest:'Последние продажи',
- catalog:'База товаров',
- model:'Модель товара',cost:'Себестоимость',
- price:'Цена продажи',quantity:'Остаток',
- addProduct:'+ Добавить товар',
- uploadPrice:'Загрузить прайс XLSX / CSV',
- downloadPrice:'Скачать прайс CSV',
- priceHelp:'Столбцы: Модель товара, Цена продажи, Себестоимость, Остаток.',
- newSale:'Новая накладная',
- seller:'Продавец',product:'Товар',
- qty:'Количество',unitPrice:'Цена за единицу',
- addToInvoice:'Добавить в накладную',
- invoiceTotal:'Сумма накладной',
- costTotal:'Общая себестоимость',
- payments:'Разделение платежей',
- paymentHelp:'Введите часть суммы для каждого способа оплаты. Остаток записывается как долг.',
- addPayment:'+ Добавить способ оплаты',
- customerPays:'Клиент платит',
- commission:'Комиссия',
- remainingDebt:'Остаток долга',
- netProfit:'Чистая прибыль',
- saveInvoice:'Сохранить накладную',
- salesHistory:'История продаж',
- exportSales:'Скачать продажи CSV',
- sellersTitle:'Продавцы ТехноМАК',
- sellerHelp:'15 мест. В старых накладных останется прежнее имя.',
- saveSellers:'Сохранить имена продавцов',
- sellerStats:'Статистика продавцов',
- backupTitle:'Резервная копия',
- backupHelp:'Данные хранятся в этом браузере.',
- makeBackup:'Скачать полную резервную копию',
- restoreBackup:'Восстановить из копии (JSON)',
- restore:'Восстановить'
+ dashboard:'Панель управления'
  }
 };
 
@@ -378,7 +283,6 @@ function addProduct(){
 
  products.push({name,cost,price,stock});
  persist();
-
  ['pname','pcost','pprice'].forEach(id=>$(id).value='');
  $('pstock').value=0;
  render();
@@ -423,7 +327,7 @@ function renderSellers(){
  </div>`).join('');
 
  $('saleSeller').innerHTML=sellers.map((s,i)=>
- s?`<option value="${i}">${safe(s)}</option>`:''
+ s?<option value="${i}">${safe(s)}</option>:''
  ).join('')||'<option value="">Алдымен сатушы атын енгізіңіз</option>';
 
  $('sellerStats').innerHTML=sellers.map((s,i)=>{
@@ -459,7 +363,7 @@ function render(){
  renderSellers();
 
  $('product').innerHTML=products.map((p,i)=>
- `<option value="${i}">${safe(p.name)} — ${money(p.price)}</option>`
+ <option value="${i}">${safe(p.name)} — ${money(p.price)}</option>
  ).join('');
 
  $('recent').innerHTML=history.slice(0,5).map(x=>`
@@ -499,12 +403,9 @@ function addItem(){
   return alert('Қоймада тауар жеткіліксіз');
 
  items.push({
-  name:p.name,
-  qty:q,
-  cost:p.cost*q,
-  unitCost:p.cost,
-  unitPrice:price,
-  base:price*q
+  name:p.name,qty:q,
+  cost:p.cost*q,unitCost:p.cost,
+  unitPrice:price,base:price*q
  });
 
  $('qty').value=1;
@@ -545,15 +446,12 @@ function drawPayments(){
  <div class="payment-row">
  <select onchange="payments[${i}].type=this.value;calculate()">
  ${Object.entries(types).map(([k,v])=>
- `<option value="${k}" ${p.type===k?'selected':''}>${v[lang]}</option>`
+ <option value="${k}" ${p.type===k?'selected':''}>${v[lang]}</option>
  ).join('')}
  </select>
-
  <input type="number" min="0" step="any"
- value="${p.amount||''}"
- placeholder="Сома / Сумма"
+ value="${p.amount||''}" placeholder="Сома / Сумма"
  oninput="payments[${i}].amount=+this.value;calculate()">
-
  <button class="danger"
  onclick="payments.splice(${i},1);drawPayments();calculate()">Өшіру</button>
  </div>`).join('');
@@ -562,30 +460,23 @@ function drawPayments(){
 function calculation(){
  const base=items.reduce((a,x)=>a+x.base,0);
  const cost=items.reduce((a,x)=>a+x.cost,0);
-
  let allocated=0,client=0,fee=0;
 
  payments.forEach(p=>{
   let part=Math.max(0,+p.amount||0);
   let t=types[p.type];
   allocated+=part;
-
   let charged=part*(1+t.plus/100);
   client+=charged;
   fee+=charged*t.fee/100;
  });
 
  const debt=Math.max(0,base-allocated);
-
- return {
-  base,cost,allocated,client,fee,debt,
-  profit:client-fee-cost
- };
+ return {base,cost,allocated,client,fee,debt,profit:client-fee-cost};
 }
 
 function calculate(){
  const c=calculation();
-
  $('clientTotal').textContent=money(c.client);
  $('feeTotal').textContent=money(c.fee);
  $('remaining').textContent=money(c.debt);
@@ -594,283 +485,38 @@ function calculate(){
 
 function saveSale(){
  if(!items.length)return alert('Алдымен тауар қосыңыз');
-
  const sellerId=+$('saleSeller').value;
  const seller=sellers[sellerId];
-
  if(!seller)return alert('Сатушыны таңдаңыз');
 
  const c=calculation();
-
  if(c.allocated>c.base+0.01)
   return alert('Төлем сомасы накладнойдан артық');
-
  if(c.allocated<=0)
   return alert('Кемінде бір төлем енгізіңіз');
 
- if(!confirm('Накладнойды сақтайсыз ба? Қалған қарыз: '+money(c.debt)))
-  return;
+ if(!confirm('Накладнойды сақтайсыз ба? Қалған қарыз: '+money(c.debt)))return;
 
  const sale={
   id:Date.now(),
   date:new Date().toLocaleString(lang==='kk'?'kk-KZ':'ru-RU'),
-  seller,
-  sellerId,
+  seller,sellerId,
   names:items.map(x=>x.name+' ×'+x.qty).join(', '),
   items:items.map(x=>({...x})),
-  base:c.base,
-  cost:c.cost,
-  client:c.client,
-  fee:c.fee,
-  debt:c.debt,
-  profit:c.profit,
+  base:c.base,cost:c.cost,client:c.client,
+  fee:c.fee,debt:c.debt,profit:c.profit,
   payments:payments.map(x=>({...x}))
  };
 
  history.unshift(sale);
-
  items.forEach(x=>{
   let p=products.find(p=>p.name===x.name);
-  if(p&&p.stock>0)p.stock=Math.max(0,p.stock-x.qty);
+  if(p)p.stock=Math.max(0,p.stock-x.qty);
  });
 
  items=[];
  payments=[{type:'CASH',amount:0}];
-
  persist();
  render();
  alert('Накладной сақталды!');
 }
-
-function download(rows,name){
- const csv='\uFEFF'+rows.map(r=>
-  r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')
- ).join('\r\n');
-
- const a=document.createElement('a');
- const url=URL.createObjectURL(
-  new Blob([csv],{type:'text/csv;charset=utf-8'})
- );
-
- a.href=url;
- a.download=name;
- a.click();
-
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-function exportPrice(){
- download([
-  ['Модель товара','Цена продажи','Себестоимость','Остаток'],
-  ...products.map(p=>[p.name,p.price,p.cost,p.stock])
- ],'technomak-price.csv');
-}
-
-function exportSales(){
- download([
-  ['Дата','Продавец','Товары','Клиент платит','Комиссия','Долг','Прибыль'],
-  ...history.map(x=>[
-   x.date,x.seller,x.names,x.client,x.fee,x.debt,x.profit
-  ])
- ],'technomak-sales.csv');
-}
-
-function parseCSV(text){
- const first=text.split(/\r?\n/)[0]||'';
- const sep=(first.match(/;/g)||[]).length>
- (first.match(/,/g)||[]).length?';':',';
-
- const rows=[];
- let row=[],cell='',quoted=false;
-
- for(let i=0;i<text.length;i++){
-  const c=text[i],next=text[i+1];
-
-  if(c==='"'&&quoted&&next==='"'){
-   cell+='"';i++;
-  }
-  else if(c==='"')quoted=!quoted;
-  else if(c===sep&&!quoted){
-   row.push(cell);cell='';
-  }
-  else if((c==='\n'||c==='\r')&&!quoted){
-   if(c==='\r'&&next==='\n')i++;
-   row.push(cell);
-   if(row.some(x=>x.trim()))rows.push(row);
-   row=[];cell='';
-  }
-  else cell+=c;
- }
-
- row.push(cell);
- if(row.some(x=>x.trim()))rows.push(row);
-
- return rows;
-}
-
-
-
-function importPrice(e){
- const file=e.target.files[0];
- if(!file)return;
-
- const ext=file.name.split('.').pop().toLowerCase();
-
- if(!['xls','xlsx','csv'].includes(ext)){
-  alert('Тек XLS, XLSX немесе CSV файл таңдаңыз');
-  e.target.value='';
-  return;
- }
-
- const process=rows=>{
-  if(!rows.length){
-   alert('Файл бос');
-   return;
-  }
-
-  const head=rows[0].map(x=>
-   String(x??'').trim().toLowerCase()
-  );
-
-  const find=terms=>head.findIndex(h=>
-   terms.some(t=>h.includes(t))
-  );
-
-  const ni=find(['модель','атауы','название','товар','model']);
-  const pi=find(['цена','баға','price']);
-  const ci=find(['себестоимость','өзіндік','себес','cost']);
-  const si=find(['остаток','қалдық','количество','stock']);
-
-  if([ni,pi,ci,si].some(i=>i<0)){
-   alert('Баған атауларын анықтау мүмкін болмады');
-   return;
-  }
-
-  let added=0;
-
-  rows.slice(1).forEach(r=>{
-   const name=String(r[ni]??'').trim();
-   if(!name)return;
-
-   const old=products.find(p=>
-    p.name.toLowerCase()===name.toLowerCase()
-   );
-
-   // Бар тауарға тиіспейді.
-   if(old)return;
-
-   const number=v=>Number(
-    String(v??'0').replace(/\s/g,'').replace(',','.')
-   );
-
-   const price=number(r[pi]);
-   const cost=number(r[ci]);
-   const stock=number(r[si]);
-
-   // Қате жолдарды өткізіп жібереді.
-   if(!Number.isFinite(price)||price<=0||
-      !Number.isFinite(cost)||cost<0||
-      !Number.isFinite(stock)||stock<0)return;
-
-   products.push({name,price,cost,stock});
-   added++;
-  });
-
-  persist();
-  render();
-
-  alert('Жүктеу аяқталды. Жаңа тауар: '+added);
- };
-
- if(ext==='csv'){
-  const reader=new FileReader();
-  reader.onload=ev=>{
-   process(parseCSV(ev.target.result.replace(/^\uFEFF/,'')));
-  };
-  reader.readAsText(file,'UTF-8');
- }else{
-  if(!window.XLSX){
-   alert('Excel кітапханасы жүктелмеді');
-   e.target.value='';
-   return;
-  }
-
-  const reader=new FileReader();
-  reader.onload=ev=>{
-   try{
-    const wb=XLSX.read(ev.target.result,{type:'array'});
-    const rows=XLSX.utils.sheet_to_json(
-     wb.Sheets[wb.SheetNames[0]],
-     {header:1,defval:''}
-    );
-    process(rows);
-   }catch(err){
-    alert('Excel файлын оқу мүмкін болмады');
-   }
-  };
-  reader.readAsArrayBuffer(file);
- }
-
- e.target.value='';
-}
-
- a.href=url;
- a.download='technomak-backup-'+
-  new Date().toISOString().slice(0,10)+'.json';
-
- a.click();
-
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-function restoreBackup(){
- const file=$('backupFile').files[0];
-
- if(!file)return alert('JSON көшірме файлын таңдаңыз');
-
- const r=new FileReader();
-
- r.onload=()=>{
-  try{
-   const d=JSON.parse(r.result);
-
-   if(!Array.isArray(d.products)||
-      !Array.isArray(d.history)||
-      !Array.isArray(d.sellers)){
-    throw Error();
-   }
-
-   if(!confirm(
-    'Қазіргі деректер резервтік файлдағы деректермен ауыстырылады. Жалғастырасыз ба?'
-   ))return;
-
-   products=d.products;
-   history=d.history;
-   sellers=d.sellers;
-   lang=d.lang||'kk';
-
-   persist();
-   render();
-
-   alert('Деректер қалпына келтірілді');
-
-  }catch{
-   alert('Резервтік файл қате немесе жарамсыз');
-  }
- };
-
- r.readAsText(file);
-}
-
-$('product').addEventListener('change',()=>{
- const p=products[+$('product').value];
- if(p)$('unitPrice').value=p.price;
-});
-
-applyLang();
-render();
-
-</script>
-</body>
-</html>
-
